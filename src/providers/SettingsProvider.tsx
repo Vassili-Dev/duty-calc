@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import SettingsContext from "../contexts/settings";
+import SettingsContext, { DefaultPage } from "../contexts/settings";
 import { Settings } from "@mui/icons-material";
 import { JsxElement } from "typescript";
 
@@ -19,9 +19,17 @@ const SettingsProvider: FunctionComponent<SettingsProviderProps> = ({
   const [abnormalDutyHours, setAbnormalDutyHours] = useState(
     DEFAULT_ABNORMAL_DUTY_HOURS
   );
+  const [defaultPage, setDefaultPage] = useState<DefaultPage>(
+    DefaultPage.Calculator
+  );
 
   const saveSettings = (changes: object) => {
-    const settings = { normalDutyHours, abnormalDutyHours, ...changes };
+    const settings = {
+      normalDutyHours,
+      abnormalDutyHours,
+      defaultPage,
+      ...changes,
+    };
 
     localStorage.setItem("settings", JSON.stringify(settings));
   };
@@ -31,10 +39,15 @@ const SettingsProvider: FunctionComponent<SettingsProviderProps> = ({
     const storedSettings = JSON.parse(storedSettingsString) || null;
 
     if (storedSettings) {
-      const { normalDutyHours = 14, abnormalDutyHours = 17 } = storedSettings;
+      const {
+        normalDutyHours = 14,
+        abnormalDutyHours = 17,
+        defaultPage = DefaultPage.Calculator,
+      } = storedSettings;
 
       setNormalDutyHours(normalDutyHours);
       setAbnormalDutyHours(abnormalDutyHours);
+      setDefaultPage(defaultPage);
     }
   }, []);
 
@@ -52,11 +65,20 @@ const SettingsProvider: FunctionComponent<SettingsProviderProps> = ({
     return newValue;
   };
 
+  const updateDefaultPage = (newValue: DefaultPage) => {
+    setDefaultPage(newValue);
+    saveSettings({ defaultPage: newValue });
+
+    return newValue;
+  };
+
   return (
     <SettingsContext.Provider
       value={{
         normalDutyHours,
         abnormalDutyHours,
+        defaultPage,
+        updateDefaultPage,
         updateNormalDutyHours,
         updateAbnormalDutyHours,
       }}

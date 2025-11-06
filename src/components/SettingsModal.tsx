@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
-import SettingsContext from "../contexts/settings";
+import SettingsContext, { DefaultPage } from "../contexts/settings";
 import {
   Box,
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -30,6 +34,8 @@ const SettingsModal = ({ isOpen, requestClose }: SettingsModalProps) => {
   const {
     normalDutyHours,
     abnormalDutyHours,
+    defaultPage,
+    updateDefaultPage,
     updateAbnormalDutyHours,
     updateNormalDutyHours,
   } = useContext(SettingsContext);
@@ -60,6 +66,23 @@ const SettingsModal = ({ isOpen, requestClose }: SettingsModalProps) => {
             updateAbnormalDutyHours(val);
           }}
         />
+        <FormControl fullWidth margin="dense">
+          <InputLabel id="default-page-select-label">Default Page</InputLabel>
+          <Select
+            fullWidth
+            margin="dense"
+            id="default-page-select"
+            labelId="default-page-select-label"
+            label="Default Page"
+            value={defaultPage}
+            onChange={(e) => {
+              updateDefaultPage(e.target.value as DefaultPage);
+            }}
+          >
+            <MenuItem value={DefaultPage.Calculator}>Duty Calculator</MenuItem>
+            <MenuItem value={DefaultPage.AlarmTool}>Alarm Tool</MenuItem>
+          </Select>
+        </FormControl>
       </DialogContent>
     </Dialog>
   );

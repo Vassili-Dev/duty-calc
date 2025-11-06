@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import moment from "moment";
 import { DateTime } from "luxon";
-import timezones, { Timezone } from "countries-and-timezones";
+import { Timezone, getAllTimezones } from "countries-and-timezones";
 import Button from "@mui/material/Button";
 import {
   MobileDateTimePicker,
@@ -13,17 +13,17 @@ import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { Dialog, FormControlLabel, Switch } from "@mui/material";
+import { FormControlLabel, Switch } from "@mui/material";
 
-import { calculateDutyTime, validateForm } from "../utils/Calculate";
-import ResultDialog from "./ResultDialog";
+import { validateForm } from "../utils/Calculate";
+import ResultDialog from "../components/ResultDialog";
 
 export interface TimezoneOption extends Timezone {
   label: string;
 }
 
 const Calculator = () => {
-  const tzs = Object.values(timezones.getAllTimezones())
+  const tzs = Object.values(getAllTimezones())
     .map((tz) => ({
       ...tz,
       label: `(UTC${DateTime.now().setZone(tz.name).toFormat("Z")}) ${tz.name}`,
