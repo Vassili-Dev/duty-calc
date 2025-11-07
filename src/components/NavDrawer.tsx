@@ -5,7 +5,6 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemButtonTypeMap,
   ListItemText,
   styled,
   SwipeableDrawer,

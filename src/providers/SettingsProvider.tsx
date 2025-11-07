@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import SettingsContext, { DefaultPage } from "../contexts/settings";
-import { Settings } from "@mui/icons-material";
-import { JsxElement } from "typescript";
 
 const DEFAULT_NORMAL_DUTY_HOURS = 14;
 const DEFAULT_ABNORMAL_DUTY_HOURS = 17;

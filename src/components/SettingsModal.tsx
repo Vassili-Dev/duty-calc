@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import SettingsContext, { DefaultPage } from "../contexts/settings";
 import {
-  Box,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -9,9 +8,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 
 // const style = {
