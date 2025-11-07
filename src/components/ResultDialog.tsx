@@ -14,12 +14,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-interface ResultDialog {
+interface ResultDialogProps {
   isOpen: boolean;
   requestClose(): void;
   formData: Form;
 }
-const ResultDialog: React.FC<ResultDialog> = ({
+const ResultDialog: React.FC<ResultDialogProps> = ({
   isOpen,
   requestClose,
   formData,

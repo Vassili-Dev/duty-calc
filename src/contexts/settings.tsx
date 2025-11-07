@@ -8,17 +8,14 @@ const defaultSettings = {
   normalDutyHours: 14,
   abnormalDutyHours: 17,
   defaultPage: DefaultPage.Calculator as DefaultPage,
-  updateDefaultPage: (value: DefaultPage) => {
+  updateDefaultPage: (_value: DefaultPage): void => {
     throw Error("Uninitalized context!");
-    return value;
   },
-  updateNormalDutyHours: (value: number) => {
+  updateNormalDutyHours: (_value: number): void => {
     throw Error("Uninitalized context!");
-    return value;
   },
-  updateAbnormalDutyHours: (value: number) => {
+  updateAbnormalDutyHours: (_value: number): void => {
     throw Error("Uninitalized context!");
-    return value;
   },
 };
 

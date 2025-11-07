@@ -24,7 +24,7 @@ const NavDrawer: React.FC = () => {
 
   return (
     <>
-      <IconButton size="large" edge="start" color="inherit" aria-label="menu">
+      <IconButton size="large" edge="start" aria-label="menu">
         <MenuIcon onClick={() => setMenuOpen(true)} />
       </IconButton>
       <SwipeableDrawer

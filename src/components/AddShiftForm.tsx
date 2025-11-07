@@ -52,51 +52,58 @@ const AddShiftForm = ({ onAddShift }: Props) => {
   }, [shiftName, shiftDuration, durationSign, onAddShift]);
 
   return (
-    <>
-      <Stack spacing={2} direction="row">
-        <Stack direction="row" spacing={1} alignItems="center">
-          <IconButton
-            onClick={() => setDurationSign((durationSign * -1) as 1 | -1)}
-          >
-            {durationSign === 1 ? <AddIcon /> : <MinusIcon />}
-          </IconButton>
-          <MobileTimePicker
-            label="Offset Duration"
-            ampmInClock={false}
-            ampm={false}
-            value={
-              shiftDuration
-                ? DateTime.now().set({
-                    hour: shiftDuration.hours,
-                    minute: shiftDuration.minutes,
-                  })
-                : null
-            }
-            onChange={(newValue) => {
-              if (newValue) {
-                setShiftDuration(
-                  Duration.fromObject({
-                    hours: newValue.get("hour"),
-                    minutes: newValue.get("minute"),
-                  })
-                );
+    <form onSubmit={addShift} id="add-shift-form">
+      <Stack spacing={1}>
+        <Stack spacing={2} direction="row">
+          <Stack direction="row" spacing={1} alignItems="center">
+            <IconButton
+              onClick={() => setDurationSign((durationSign * -1) as 1 | -1)}
+            >
+              {durationSign === 1 ? <AddIcon /> : <MinusIcon />}
+            </IconButton>
+            <MobileTimePicker
+              label="Offset Duration"
+              ampmInClock={false}
+              ampm={false}
+              value={
+                shiftDuration
+                  ? DateTime.now().set({
+                      hour: shiftDuration.hours,
+                      minute: shiftDuration.minutes,
+                    })
+                  : null
               }
-            }}
+              onChange={(newValue) => {
+                if (newValue) {
+                  setShiftDuration(
+                    Duration.fromObject({
+                      hours: newValue.get("hour"),
+                      minutes: newValue.get("minute"),
+                    })
+                  );
+                }
+              }}
+            />
+          </Stack>
+          <TextField
+            label="Offset Name"
+            fullWidth
+            margin="dense"
+            id="shift-name-input"
+            value={shiftName}
+            onChange={(e) => setShiftName(e.target.value)}
           />
         </Stack>
-        <TextField
-          label="Offset Name"
-          fullWidth
-          margin="dense"
-          id="shift-name-input"
-          value={shiftName}
-          onChange={(e) => setShiftName(e.target.value)}
-        />
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={!isValid}
+          onClick={addShift}
+        >
+          Add Offset
+        </Button>
       </Stack>
-      <Button disabled={!isValid} onClick={addShift}>
-        Add Offset
-      </Button>
-    </>
+    </form>
   );
 };
 

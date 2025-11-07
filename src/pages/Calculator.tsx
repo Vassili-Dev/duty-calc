@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import moment from "moment";
 import { DateTime } from "luxon";
 import { Timezone, getAllTimezones } from "countries-and-timezones";
@@ -17,12 +17,14 @@ import { FormControlLabel, Switch } from "@mui/material";
 
 import { validateForm } from "../utils/Calculate";
 import ResultDialog from "../components/ResultDialog";
+import TitleContext from "../contexts/title";
 
 export interface TimezoneOption extends Timezone {
   label: string;
 }
 
 const Calculator = () => {
+  const { setTitle } = useContext(TitleContext);
   const tzs = Object.values(getAllTimezones())
     .map((tz) => ({
       ...tz,
@@ -39,6 +41,10 @@ const Calculator = () => {
   const [flightTime, setFlightTime] = useState<DateTime | null>(null);
   const [useAbnormal, setUseAbnormal] = useState(false);
   const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+    setTitle("Duty Calculator");
+  }, [setTitle]);
 
   const AbnormalSwitch = (
     <Switch

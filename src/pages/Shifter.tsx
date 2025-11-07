@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import { DateTime } from "luxon";
 import { LocalizationProvider, MobileTimePicker } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
-import CloseIcon from "@mui/icons-material/Close";
-import { Divider, IconButton } from "@mui/material";
+import { Divider } from "@mui/material";
 import AddShiftForm from "../components/AddShiftForm";
 import ShifterStateContext from "../contexts/shifter";
 import ShifterStateProvider from "../providers/ShifterStateProvider";
+import TimeShiftDisplay from "../components/TimeShiftDisplay";
+import TitleContext from "../contexts/title";
 
 const Shifter = () => {
+  const { setTitle } = useContext(TitleContext);
+
+  useEffect(() => {
+    setTitle("Alarm Tool");
+  }, [setTitle]);
+
   return (
     <LocalizationProvider dateAdapter={AdapterLuxon}>
       <ShifterStateProvider>
@@ -21,8 +28,7 @@ const Shifter = () => {
   );
 };
 const Inner = () => {
-  const { shifts, addShift, removeShift } =
-    React.useContext(ShifterStateContext);
+  const { shifts, addShift, removeShift } = useContext(ShifterStateContext);
   const [time, setTime] = useState<DateTime | null>(null);
   return (
     <Container maxWidth="sm">
@@ -34,34 +40,16 @@ const Inner = () => {
           ampm={false}
           onChange={setTime}
         />
-        {shifts &&
-          shifts
-            .sort((a, b) => (a.duration > b.duration ? 1 : -1))
-            .map((shift) => (
-              <Stack
-                key={shift.id}
-                direction="row"
-                spacing={1}
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <span>
-                  {time ? time?.plus(shift.duration).toFormat("HH:mm") : null}
-                </span>
-                <div>
-                  <span>
-                    {shift.name}&nbsp;[
-                    {shift.duration.toFormat("hh:mm", {
-                      signMode: "negativeLargestOnly",
-                    })}
-                    ]
-                  </span>
-                  <IconButton onClick={() => removeShift(shift.id)}>
-                    <CloseIcon color="error" />
-                  </IconButton>
-                </div>
-              </Stack>
-            ))}
+        {shifts && (
+          <TimeShiftDisplay
+            timeShifts={shifts.sort((a, b) =>
+              a.duration > b.duration ? 1 : -1
+            )}
+            time={time!}
+            removeShift={removeShift}
+          />
+        )}
+
         <Divider />
         <AddShiftForm onAddShift={addShift} />
       </Stack>
