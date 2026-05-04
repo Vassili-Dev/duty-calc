@@ -1,16 +1,16 @@
 import { useState, useContext, useEffect } from "react";
 
 import { DateTime } from "luxon";
-import { LocalizationProvider, MobileTimePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider, StaticTimePicker } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
-import { Divider } from "@mui/material";
 import AddShiftForm from "../components/AddShiftForm";
 import ShifterStateContext from "../contexts/shifter";
 import ShifterStateProvider from "../providers/ShifterStateProvider";
 import TimeShiftDisplay from "../components/TimeShiftDisplay";
 import TitleContext from "../contexts/title";
+import { TimePickerSx } from "../theme";
 
 const Shifter = () => {
   const { setTitle } = useContext(TitleContext);
@@ -33,11 +33,14 @@ const Inner = () => {
   return (
     <Container maxWidth="sm">
       <Stack spacing={2}>
-        <MobileTimePicker
-          label="Time"
+        <StaticTimePicker
+          sx={TimePickerSx}
           value={time}
           ampmInClock={false}
           ampm={false}
+          slotProps={{
+            actionBar: { actions: ["clear"], disableSpacing: true },
+          }}
           onChange={setTime}
         />
         {shifts && (
@@ -50,7 +53,6 @@ const Inner = () => {
           />
         )}
 
-        <Divider />
         <AddShiftForm onAddShift={addShift} />
       </Stack>
     </Container>

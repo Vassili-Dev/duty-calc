@@ -18,6 +18,7 @@ import { FormControlLabel, Switch } from "@mui/material";
 import { validateForm } from "../utils/Calculate";
 import ResultDialog from "../components/ResultDialog";
 import TitleContext from "../contexts/title";
+import { TimePickerSx } from "../theme";
 
 export interface TimezoneOption extends Timezone {
   label: string;
@@ -65,6 +66,7 @@ const Calculator = () => {
       <Container maxWidth="sm">
         <Stack spacing={2}>
           <MobileDateTimePicker
+            slotProps={{ dialog: { sx: TimePickerSx } }}
             label="Start Time"
             value={startTime}
             ampmInClock={false}
@@ -85,6 +87,7 @@ const Calculator = () => {
           />
 
           <MobileTimePicker
+            slotProps={{ dialog: { sx: TimePickerSx } }}
             label="Flight Time"
             value={flightTime}
             onChange={setFlightTime}

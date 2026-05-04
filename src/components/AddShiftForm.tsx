@@ -8,7 +8,8 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import AddIcon from "@mui/icons-material/Add";
 import MinusIcon from "@mui/icons-material/Remove";
-import { IconButton } from "@mui/material";
+import { IconButton, Paper } from "@mui/material";
+import { TimePickerSx } from "../theme";
 
 export interface TimezoneOption extends Timezone {
   label: string;
@@ -52,58 +53,61 @@ const AddShiftForm = ({ onAddShift }: Props) => {
   }, [shiftName, shiftDuration, durationSign, onAddShift]);
 
   return (
-    <form onSubmit={addShift} id="add-shift-form">
-      <Stack spacing={1}>
-        <Stack spacing={2} direction="row">
-          <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton
-              onClick={() => setDurationSign((durationSign * -1) as 1 | -1)}
-            >
-              {durationSign === 1 ? <AddIcon /> : <MinusIcon />}
-            </IconButton>
-            <MobileTimePicker
-              label="Offset Duration"
-              ampmInClock={false}
-              ampm={false}
-              value={
-                shiftDuration
-                  ? DateTime.now().set({
-                      hour: shiftDuration.hours,
-                      minute: shiftDuration.minutes,
-                    })
-                  : null
-              }
-              onChange={(newValue) => {
-                if (newValue) {
-                  setShiftDuration(
-                    Duration.fromObject({
-                      hours: newValue.get("hour"),
-                      minutes: newValue.get("minute"),
-                    })
-                  );
+    <Paper sx={{ padding: "1rem" }} elevation={3}>
+      <form onSubmit={addShift} id="add-shift-form">
+        <Stack spacing={1}>
+          <Stack spacing={2} direction="row">
+            <Stack direction="row" spacing={1} alignItems="center">
+              <IconButton
+                onClick={() => setDurationSign((durationSign * -1) as 1 | -1)}
+              >
+                {durationSign === 1 ? <AddIcon /> : <MinusIcon />}
+              </IconButton>
+              <MobileTimePicker
+                slotProps={{ dialog: { sx: TimePickerSx } }}
+                label="Offset Duration"
+                ampmInClock={false}
+                ampm={false}
+                value={
+                  shiftDuration
+                    ? DateTime.now().set({
+                        hour: shiftDuration.hours,
+                        minute: shiftDuration.minutes,
+                      })
+                    : null
                 }
-              }}
+                onChange={(newValue) => {
+                  if (newValue) {
+                    setShiftDuration(
+                      Duration.fromObject({
+                        hours: newValue.get("hour"),
+                        minutes: newValue.get("minute"),
+                      })
+                    );
+                  }
+                }}
+              />
+            </Stack>
+            <TextField
+              label="Offset Name"
+              fullWidth
+              margin="dense"
+              id="shift-name-input"
+              value={shiftName}
+              onChange={(e) => setShiftName(e.target.value)}
             />
           </Stack>
-          <TextField
-            label="Offset Name"
-            fullWidth
-            margin="dense"
-            id="shift-name-input"
-            value={shiftName}
-            onChange={(e) => setShiftName(e.target.value)}
-          />
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={!isValid}
+            onClick={addShift}
+          >
+            Add Offset
+          </Button>
         </Stack>
-        <Button
-          variant="contained"
-          type="submit"
-          disabled={!isValid}
-          onClick={addShift}
-        >
-          Add Offset
-        </Button>
-      </Stack>
-    </form>
+      </form>
+    </Paper>
   );
 };
 

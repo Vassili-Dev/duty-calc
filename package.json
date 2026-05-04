@@ -45,6 +45,13 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "overrides": [
+      {
+        "files": [
+          "src/**/*.ts?(x)"
+        ]
+      }
+    ],
     "extends": [
       "react-app",
       "react-app/jest"

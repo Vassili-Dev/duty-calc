@@ -57,7 +57,9 @@ const TimeShiftItem: React.FC<{
       >
         <ListItemText secondary={shift.name} />
         <ListItemText
-          primary={time ? time.plus(shift.duration).toFormat("HH:mm") : null}
+          primary={
+            time ? time.plus(shift.duration).toFormat("HH:mm") : <>&nbsp;</>
+          }
         />
       </ListItem>
     </>
